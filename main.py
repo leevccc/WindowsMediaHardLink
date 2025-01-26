@@ -1,6 +1,7 @@
 import os
 import json
 
+
 def read_config(config_file):
     """读取 JSON 配置文件"""
     if not os.path.exists(config_file):
@@ -13,18 +14,21 @@ def read_config(config_file):
         raise ValueError("配置文件中必须包含 'pairs' 和 'history_file'")
     return pairs, history_file
 
+
 def read_history(history_file):
     """读取 history 文件中的记录"""
     if not os.path.exists(history_file):
         return set()
-    with open(history_file, 'r') as f:
+    with open(history_file, 'r', encoding='utf-8') as f:
         return set(line.strip() for line in f)
+
 
 def write_history(history_file, paths):
     """将新路径写入 history 文件"""
-    with open(history_file, 'a') as f:
+    with open(history_file, 'a', encoding='utf-8') as f:
         for path in paths:
             f.write(path + '\n')
+
 
 def create_hard_links(source_dir, dest_dir, history, new_paths):
     """创建硬链接并记录新路径"""
@@ -49,6 +53,7 @@ def create_hard_links(source_dir, dest_dir, history, new_paths):
             except OSError as e:
                 print(f"创建硬链接失败: {source_path} -> {dest_path}, 错误: {e}")
 
+
 def process_pairs(pairs, history_file):
     """处理多组输入输出配对"""
     # 读取历史记录
@@ -71,6 +76,7 @@ def process_pairs(pairs, history_file):
         print("历史文件已更新。")
     else:
         print("没有新文件需要处理。")
+
 
 if __name__ == "__main__":
     # 配置文件路径
